@@ -3,35 +3,35 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("ok");
-});
+app.get("/", (req, res) => res.send("ok"));
 
+//  validation endpoint 
 app.post("/validate", (req, res) => {
   const minutes = Number(req.body.allowed_minutes);
 
   if (!Number.isInteger(minutes)) {
-    return res.status(400).json({
-      error: "allowed_minutes must be an integer"
-    });
+    return res.status(400).json({ error: "allowed_minutes must be an integer" });
   }
-
   if (minutes < 0 || minutes > 180) {
-    return res.status(400).json({
-      error: "allowed_minutes must be between 0 and 180"
-    });
+    return res.status(400).json({ error: "allowed_minutes must be between 0 and 180" });
   }
 
   res.json({ allowed_minutes: minutes });
 });
 
-app.post("/events", (req, res) => {
-  console.log("EVENT RECEIVED:");
-  console.log(req.body);
+// webhook endpoints for sign-in, sign-out
+app.post("/visitor-sign-in", (req, res) => {
+  console.log("VISITOR SIGN-IN EVENT RECEIVED:");
+  console.log(JSON.stringify(req.body, null, 2));
   res.json({ ok: true });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.post("/visitor-sign-out", (req, res) => {
+  console.log("VISITOR SIGN-OUT EVENT RECEIVED:");
+  console.log(JSON.stringify(req.body, null, 2));
+  res.json({ ok: true });
 });
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

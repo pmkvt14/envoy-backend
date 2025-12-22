@@ -47,7 +47,10 @@ app.get("/envoy/snippets/visitor-duration", (req, res) => {
       { type: "text", content: "Snippet is rendering ✅ (next we will make this dynamic)" }
     ]
   });
-
+});
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

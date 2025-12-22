@@ -7,16 +7,16 @@ app.get("/", (req, res) => res.send("ok"));
 
 //  validation endpoint 
 app.post("/validate", (req, res) => {
-  const minutes = Number(req.body.max_visit_duration);
+  const minutes = Number(req.body.maximumduration);
 
   if (!Number.isInteger(minutes)) {
-    return res.status(400).json({ error: "max_visit_duration must be an integer" });
+    return res.status(400).json({ error: "maximumduration must be an integer" });
   }
   if (minutes < 0 || minutes > 180) {
-    return res.status(400).json({ error: "max_visit_duration must be between 0 and 180" });
+    return res.status(400).json({ error: "maximumduration must be between 0 and 180" });
   }
 
-  res.json({ max_visit_duration: minutes });
+  res.json({ maximumduration: minutes });
 });
 
 // webhook endpoints for sign-in, sign-out

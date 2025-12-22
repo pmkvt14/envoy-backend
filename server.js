@@ -13,11 +13,11 @@ app.post("/validate", (req, res) => {
   const minutes = Number(req.body.max_visit_duration);
 
   if (!Number.isFinite(minutes) || !Number.isInteger(minutes)) {
-    return res.status(400).json({ error: "max_visit_duration must be an integer" });
+    return res.status(400).json({ message: "max_visit_duration must be an integer" });
   }
 
   if (minutes < 0 || minutes > 180) {
-    return res.status(400).json({ error: "max_visit_duration must be between 0 and 180" });
+    return res.status(400).json({ message: "max_visit_duration must be between 0 and 180" });
   }
 
   return res.status(200).json({ max_visit_duration: minutes });

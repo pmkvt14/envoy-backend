@@ -7,16 +7,16 @@ app.get("/", (req, res) => res.send("ok"));
 
 //  validation endpoint 
 app.post("/validate", (req, res) => {
-  const minutes = Number(req.body.allowed_minutes);
+  const minutes = Number(req.body.max_visit_duration);
 
   if (!Number.isInteger(minutes)) {
-    return res.status(400).json({ error: "allowed_minutes must be an integer" });
+    return res.status(400).json({ error: "max_visit_duration must be an integer" });
   }
   if (minutes < 0 || minutes > 180) {
-    return res.status(400).json({ error: "allowed_minutes must be between 0 and 180" });
+    return res.status(400).json({ error: "max_visit_duration must be between 0 and 180" });
   }
 
-  res.json({ allowed_minutes: minutes });
+  res.json({ max_visit_duration: minutes });
 });
 
 // webhook endpoints for sign-in, sign-out
@@ -41,7 +41,7 @@ app.get("/envoy/snippets/visitor-duration", (req, res) => {
     type: "vertical-container",
     content: [
       { type: "heading", size: "large", content: "Visitor Duration Status" },
-      { type: "text", content: "Snippet is rendering ✅ (next we’ll make this dynamic)" }
+      { type: "text", content: "Snippet is rendering ✅ (next we will make this dynamic)" }
     ]
   });
 

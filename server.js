@@ -3,12 +3,14 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => res.send("ok"));
 
 //  validation endpoint 
 app.post("/validate", (req, res) => {
   console.log("VALIDATE BODY:", JSON.stringify(req.body, null, 2));
+  console.log("VALIDATE HEADERS:", req.headers);
+  
 
   let minutes;
 

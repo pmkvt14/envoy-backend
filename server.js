@@ -31,7 +31,20 @@ app.post("/visitor-sign-out", (req, res) => {
   console.log(JSON.stringify(req.body, null, 2));
   res.json({ ok: true });
 });
+// content snippet endpoint (Invocation URL)
+app.get("/envoy/snippets/visitor-duration", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
 
+  // For now: simple placeholder UI so you can confirm it renders.
+  // Next step: make it dynamic using real event data.
+  res.json({
+    type: "vertical-container",
+    content: [
+      { type: "heading", size: "large", content: "Visitor Duration Status" },
+      { type: "text", content: "Snippet is rendering ✅ (next we’ll make this dynamic)" }
+    ]
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

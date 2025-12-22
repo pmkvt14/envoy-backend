@@ -10,17 +10,39 @@ app.get("/", (req, res) => res.send("ok"));
 app.post("/validate", (req, res) => {
   console.log("VALIDATE BODY:", JSON.stringify(req.body, null, 2));
 
-  const minutes = Number(req.body.max_visit_duration);
+  let minutes;
+
+  const raw = req.body.max_visit_duration;
+
+  if (typeof raw === "number") {
+    // curl / simple case
+    minutes = raw;
+  } else if (typeof raw === "object" && raw !== null) {
+    // Envoy Duration field case
+    minutes =
+      raw.total_minutes ??
+      raw.minutes ??
+      raw.value ??
+      Number(raw);
+  }
+
+  minutes = Number(minutes);
 
   if (!Number.isFinite(minutes) || !Number.isInteger(minutes)) {
-    return res.status(400).json({ message: "max_visit_duration must be an integer" });
+    return res.status(400).json({
+      message: "max_visit_duration must resolve to an integer number of minutes"
+    });
   }
 
   if (minutes < 0 || minutes > 180) {
-    return res.status(400).json({ message: "max_visit_duration must be between 0 and 180" });
+    return res.status(400).json({
+      message: "max_visit_duration must be between 0 and 180 minutes"
+    });
   }
 
-  return res.status(200).json({ max_visit_duration: minutes });
+  return res.status(200).json({
+    max_visit_duration: minutes
+  });
 });
 
 // webhook endpoints for sign-in, sign-out

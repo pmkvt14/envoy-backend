@@ -7,7 +7,7 @@ app.get("/", (req, res) => res.send("ok"));
 
 //  validation endpoint 
 app.post("/validate", (req, res) => {
-  const minutes = Number(req.body.maximumduration);
+  console.log("VALIDATE BODY:", JSON.stringify(req.body, null, 2));
 
   if (!Number.isInteger(minutes)) {
     return res.status(400).json({ error: "maximumduration must be an integer" });

@@ -1,3 +1,4 @@
+console.log("RUNNING FILE:", __filename);
 const express = require("express");
 const app = express();
 

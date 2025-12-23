@@ -1,6 +1,12 @@
 console.log("RUNNING FILE:", __filename);
 const express = require("express");
 const app = express();
+app.use((req, res, next) => {
+  console.log(`[REQ] ${new Date().toISOString()} ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+app.get("/healthz", (req, res) => res.status(200).send("ok"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

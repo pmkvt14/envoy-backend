@@ -26,8 +26,10 @@ app.post("/validate", (req, res) => {
   // Support both shapes:
   // - curl: { max_visit_duration: 60 }
   // - Envoy SDK docs: { envoy: { payload: { max_visit_duration: ... } } }
-  const payload = req.body?.envoy?.payload ?? req.body ?? {};
-  const raw = payload.max_visit_duration;
+  const raw =
+  req.body?.payload?.max_visit_duration ??     // Envoy install shape (what your logs show)
+  req.body?.envoy?.payload?.max_visit_duration ?? // just in case you ever see envoy.payload
+  req.body?.max_visit_duration;                // curl/simple
 
   let minutes;
 
@@ -53,7 +55,9 @@ app.post("/validate", (req, res) => {
     });
   }
 
-  return res.status(200).json({ max_visit_duration: minutes });
+  return res.status(200).json({
+  payload: { max_visit_duration: minutes }
+});
 });
 
 // allow GET probes for webhooks too
